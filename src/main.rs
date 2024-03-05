@@ -5,16 +5,23 @@ use std::error::Error;
 
 #[derive(Deserialize, Debug)]
 struct Weather {
-    max_temp: String,
-    min_temp: String,
-    prediction_date: String,
-    weather_type: u32,
-    last_update: String
+    tMin: Option<String>,
+    tMax: Option<String>,
+    tMed: Option<String>,
+    idFfxVento: Option<i32>,
+    iUv: Option<String>,
+    idTipoTempo: Option<i32>,
+    globalIdLocal: Option<i32>,
+    probabilidadePrecipita: Option<String>,
+    idPeriodo: Option<i32>,
+    dataPrev: Option<String>,
+    ddVento: Option<String>,
 }
 
 // Weather Types: https://www.ipma.pt/bin/file.data/weathertypes.json
+
 fn main() -> Result<(), Box<dyn Error>> {
-    let resp = match get("https://api.ipma.pt/public-data/forecast/aggregate/1030300.json") {
+    let resp = match reqwest::blocking::get("https://api.ipma.pt/public-data/forecast/aggregate/1030300.json") {
         Ok(resp) => resp,
         Err(err) => {
             println!("Error: {}", err);
@@ -31,15 +38,17 @@ fn main() -> Result<(), Box<dyn Error>> {
             }
         };
 
-        let data: Value = match serde_json::from_str(&body) {
-            Ok(data) => data,
+        let weather_data: Vec<Weather> = match serde_json::from_str(&body) {
+            Ok(entries) => entries,
             Err(err) => {
                 println!("Error parsing JSON: {}", err);
                 return Ok(());
             }
-        }; 
+        };
 
-        println!("{:?}", data);
+        for entry in weather_data {
+            println!("{:?}", entry);
+        }
     } else {
         println!("Error: {}", resp.status());
     }
