@@ -5,17 +5,28 @@ use std::error::Error;
 
 #[derive(Deserialize, Debug)]
 struct Weather {
-    tMin: Option<String>,
-    tMax: Option<String>,
-    tMed: Option<String>,
-    idFfxVento: Option<i32>,
-    iUv: Option<String>,
-    idTipoTempo: Option<i32>,
-    globalIdLocal: Option<i32>,
-    probabilidadePrecipita: Option<String>,
-    idPeriodo: Option<i32>,
-    dataPrev: Option<String>,
-    ddVento: Option<String>,
+    #[serde(rename = "tMin")]
+    t_min: Option<String>,
+    #[serde(rename = "tMax")]
+    t_max: Option<String>,
+    #[serde(rename = "tMed")]
+    t_med: Option<String>,
+    #[serde(rename = "idFfxVento")]
+    id_ffx_vento: Option<i32>,
+    #[serde(rename = "iUv")]
+    i_uv: Option<String>,
+    #[serde(rename = "idTipoTempo")]
+    id_tipo_tempo: Option<i32>,
+    #[serde(rename = "globalIdLocal")]
+    global_id_local: Option<i32>,
+    #[serde(rename = "probabilidadePrecipita")]
+    probabilidade_precipita: Option<String>,
+    #[serde(rename = "idPeriodo")]
+    id_periodo: Option<i32>,
+    #[serde(rename = "dataPrev")]
+    data_prev: Option<String>,
+    #[serde(rename = "ddVento")]
+    dd_vento: Option<String>,
 }
 
 // Weather Types: https://www.ipma.pt/bin/file.data/weathertypes.json
