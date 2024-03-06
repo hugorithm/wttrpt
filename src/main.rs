@@ -45,8 +45,8 @@ fn get_weather_types() -> Result<(), Box<dyn Error>> {
     let resp = match reqwest::blocking::get("https://www.ipma.pt/bin/file.data/weathertypes.json") {
         Ok(resp) => resp,
         Err(err) => {
-            println!("Error: {}", err)
-            return OK(());
+            println!("Error: {}", err);
+            return Ok(());
         }
     };
 
