@@ -41,7 +41,38 @@ struct WeatherDescriptions {
     descriptions: HashMap<i32, WeatherDescription>,
 }
 
-// Weather Types: https://www.ipma.pt/bin/file.data/weathertypes.json
+fn get_weather_types() -> Result<(), Box<dyn Error>> {
+    let resp = match reqwest::blocking::get("https://www.ipma.pt/bin/file.data/weathertypes.json") {
+        Ok(resp) => resp,
+        Err(err) => {
+            println!("Error: {}", err)
+            return OK(());
+        }
+    };
+
+    if resp.status().is_success() {
+        let body = match resp.text() {
+            Ok(body) => body,
+            Err(err) => {
+                println!("Error reading response body: {}", err);
+                return Ok(());
+            }
+        };
+
+        let weather_types: WeatherDescription = match serde_json::from_str(&body) {
+            Ok(entries) => entries,
+            Err(err) => {
+                println!("Error parsing JSON: {}", err);
+                return Ok(());
+            }
+        };
+    } else {
+        println!("Error: {}", resp.status());
+    }
+
+    return Ok(());
+}
+
 
 fn main() -> Result<(), Box<dyn Error>> {
     let resp = match reqwest::blocking::get("https://api.ipma.pt/public-data/forecast/aggregate/1030300.json") {
