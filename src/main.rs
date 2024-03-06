@@ -1,5 +1,6 @@
 use serde::Deserialize;
 use std::error::Error;
+use std::collections::HashMap;
 
 #[derive(Deserialize, Debug)]
 struct Weather {
@@ -25,6 +26,19 @@ struct Weather {
     prevision_date: Option<String>,
     #[serde(rename = "ddVento")]
     dd_wind: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+struct WeatherDescription {
+    #[serde(rename = "PT")]
+    pt: String,
+    #[serde(rename = "EN")]
+    en: String,
+}
+
+#[derive(Debug, Deserialize)]
+struct WeatherDescriptions {
+    descriptions: HashMap<i32, WeatherDescription>,
 }
 
 // Weather Types: https://www.ipma.pt/bin/file.data/weathertypes.json
@@ -55,8 +69,8 @@ fn main() -> Result<(), Box<dyn Error>> {
             }
         };
 
-        for entry in weather_data {
-            println!("{:?}", entry);
+        for weather in weather_data {
+            println!("{:?}", weather);
         }
     } else {
         println!("Error: {}", resp.status());
