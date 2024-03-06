@@ -12,21 +12,21 @@ struct Weather {
     #[serde(rename = "tMed")]
     t_med: Option<String>,
     #[serde(rename = "idFfxVento")]
-    id_ffx_vento: Option<i32>,
+    id_ffx_wind: Option<i32>,
     #[serde(rename = "iUv")]
     i_uv: Option<String>,
     #[serde(rename = "idTipoTempo")]
-    id_tipo_tempo: Option<i32>,
+    weather_type_id: Option<i32>,
     #[serde(rename = "globalIdLocal")]
     global_id_local: Option<i32>,
     #[serde(rename = "probabilidadePrecipita")]
-    probabilidade_precipita: Option<String>,
+    rain_probability: Option<String>,
     #[serde(rename = "idPeriodo")]
     id_periodo: Option<i32>,
     #[serde(rename = "dataPrev")]
-    data_prev: Option<String>,
+    prevision_date: Option<String>,
     #[serde(rename = "ddVento")]
-    dd_vento: Option<String>,
+    dd_wind: Option<String>,
 }
 
 // Weather Types: https://www.ipma.pt/bin/file.data/weathertypes.json
