@@ -1,6 +1,4 @@
 use serde::Deserialize;
-use serde_json::Value;
-use reqwest::blocking::get;
 use std::error::Error;
 
 #[derive(Deserialize, Debug)]
