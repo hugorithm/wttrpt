@@ -1,6 +1,6 @@
 use serde::Deserialize;
-use std::error::Error;
 use std::collections::HashMap;
+use std::error::Error;
 
 #[derive(Deserialize, Debug)]
 struct Weather {
@@ -66,15 +66,18 @@ pub fn get_weather_types() -> Result<(), Box<dyn Error>> {
                 return Ok(());
             }
         };
-    } else {
-        println!("Error: {}", resp.status());
+
+        return Ok(weather_types);
     }
 
+    println!("Error: {}", resp.status());
     return Ok(());
 }
 
 pub fn get_weather() -> Result<(), Box<dyn Error>> {
-    let resp = match reqwest::blocking::get("https://api.ipma.pt/public-data/forecast/aggregate/1030300.json") {
+    let resp = match reqwest::blocking::get(
+        "https://api.ipma.pt/public-data/forecast/aggregate/1030300.json",
+    ) {
         Ok(resp) => resp,
         Err(err) => {
             println!("Error: {}", err);
@@ -102,10 +105,11 @@ pub fn get_weather() -> Result<(), Box<dyn Error>> {
         for weather in weather_data {
             println!("{:?}", weather);
         }
-    } else {
-        println!("Error: {}", resp.status());
+
+        return Ok(weather_data);
     }
 
-    Ok(())
-}
+    println!("Error: {}", resp.status());
 
+    return Ok(());
+}
