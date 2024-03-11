@@ -29,24 +29,18 @@ struct Weather {
 }
 
 #[derive(Debug, Deserialize)]
-struct WeatherDescription {
+pub struct WeatherDescription {
     #[serde(rename = "PT")]
     pt: String,
     #[serde(rename = "EN")]
     en: String,
 }
 
-#[derive(Debug, Deserialize)]
-struct WeatherDescriptions {
-    descriptions: HashMap<i32, WeatherDescription>,
-}
-
-pub fn get_weather_types() -> Result<(), Box<dyn Error>> {
+pub fn get_weather_types() -> Result<HashMap<String, WeatherDescription>, Box<dyn Error>> {
     let resp = match reqwest::blocking::get("https://www.ipma.pt/bin/file.data/weathertypes.json") {
         Ok(resp) => resp,
         Err(err) => {
-            println!("Error: {}", err);
-            return Ok(());
+            return Err(err.into());
         }
     };
 
@@ -54,34 +48,30 @@ pub fn get_weather_types() -> Result<(), Box<dyn Error>> {
         let body = match resp.text() {
             Ok(body) => body,
             Err(err) => {
-                println!("Error reading response body: {}", err);
-                return Ok(());
+                return Err(err.into());
             }
         };
 
-        let weather_types: WeatherDescription = match serde_json::from_str(&body) {
+        let weather_types: HashMap<String, WeatherDescription> = match serde_json::from_str(&body) {
             Ok(entries) => entries,
             Err(err) => {
-                println!("Error parsing JSON: {}", err);
-                return Ok(());
+                return Err(err.into());
             }
         };
 
-        return Ok(weather_types);
+        Ok(weather_types)
+    } else {
+        Err(format!("Error: {}", resp.status()).into())
     }
-
-    println!("Error: {}", resp.status());
-    return Ok(());
 }
 
-pub fn get_weather() -> Result<(), Box<dyn Error>> {
+pub fn get_weather() -> Result<Vec<Weather>, Box<dyn Error>> {
     let resp = match reqwest::blocking::get(
         "https://api.ipma.pt/public-data/forecast/aggregate/1030300.json",
     ) {
         Ok(resp) => resp,
         Err(err) => {
-            println!("Error: {}", err);
-            return Ok(());
+            return Err(err.into());
         }
     };
 
@@ -89,27 +79,19 @@ pub fn get_weather() -> Result<(), Box<dyn Error>> {
         let body = match resp.text() {
             Ok(body) => body,
             Err(err) => {
-                println!("Error reading response body: {}", err);
-                return Ok(());
+                return Err(err.into());
             }
         };
 
         let weather_data: Vec<Weather> = match serde_json::from_str(&body) {
             Ok(entries) => entries,
             Err(err) => {
-                println!("Error parsing JSON: {}", err);
-                return Ok(());
+                return Err(err.into());
             }
         };
 
-        for weather in weather_data {
-            println!("{:?}", weather);
-        }
-
-        return Ok(weather_data);
+        Ok(weather_data)
+    } else {
+        Err(format!("Error: {}", resp.status()).into())
     }
-
-    println!("Error: {}", resp.status());
-
-    return Ok(());
 }
