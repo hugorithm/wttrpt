@@ -15,7 +15,7 @@ pub struct Weather {
     #[serde(rename = "iUv")]
     i_uv: Option<String>,
     #[serde(rename = "idTipoTempo")]
-    weather_type_id: Option<i32>,
+    type_id: Option<i32>,
     #[serde(rename = "globalIdLocal")]
     global_id_local: Option<i32>,
     #[serde(rename = "probabilidadePrecipita")]
