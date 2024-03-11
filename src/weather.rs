@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use std::error::Error;
 
 #[derive(Deserialize, Debug)]
-struct Weather {
+pub struct Weather {
     #[serde(rename = "tMin")]
     t_min: Option<String>,
     #[serde(rename = "tMax")]
