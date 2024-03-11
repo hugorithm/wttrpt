@@ -95,3 +95,18 @@ pub fn get_weather() -> Result<Vec<Weather>, Box<dyn Error>> {
         Err(format!("Error: {}", resp.status()).into())
     }
 }
+
+pub fn run() -> Result<(), Box<dyn Error>> {
+    let weather_types = get_weather_types()?;
+    let weather_data = get_weather()?;
+
+    for weather in &weather_data {
+        if let Some(type_id) = weather.type_id {
+            if let Some(weather_type) = weather_types.get(&type_id.to_string()) {
+                println!("Weather: {:?}, Type: {:?}", weather, weather_type);
+            }
+        }
+    }
+
+    Ok(())
+}
