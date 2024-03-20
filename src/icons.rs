@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-fn get_icon(name: &str) -> Vec<&'static str> {
+pub fn get_icon(name: &str) -> Vec<&'static str> {
     let icon: HashMap<&str, Vec<&'static str>> = [
         ("iconUnknown", &[
             "    .-.      ",
