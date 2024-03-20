@@ -71,7 +71,6 @@ pub fn get_icon(name: &str) -> Vec<&'static str> {
             "\x1b[38;5;226m   /\x1b[38;5;250m(___(__) \x1b[0m",
             "\x1b[38;5;111m     ‘ \x1b[38;5;255m*\x1b[38;5;111m ‘ \x1b[38;5;255m* \x1b[0m",
             "\x1b[38;5;255m    *\x1b[38;5;111m ‘ \x1b[38;5;255m*\x1b[38;5;111m ‘", 
-            "\x1b[38;5;255m *\x1b[38;5;111m ‘ \x1b[38;5;255m*\x1b[38;5;111m ‘   \x1b[0m",
         ]),
         ("iconThunderyShowers", &[
             "\x1b[38;5;226m _`/\"\"\x1b[38;5;250m.-.    \x1b[0m",
@@ -128,7 +127,6 @@ pub fn get_icon(name: &str) -> Vec<&'static str> {
             "\x1b[38;5;250m   (___(__)  \x1b[0m",
             "\x1b[38;5;111m    ‘ \x1b[38;5;255m*\x1b[38;5;111m ‘ \x1b[38;5;255m*  \x1b[0m",
             "\x1b[38;5;255m   *\x1b[38;5;111m ‘ \x1b[38;5;255m",
-            "\x1b[38;5;111m ‘   \x1b[0m",
         ]),
         ("iconFog", &[
             "             ",
@@ -139,7 +137,7 @@ pub fn get_icon(name: &str) -> Vec<&'static str> {
         ]),
     ]
     .iter()
-    .cloned()
+    .map(|(key, value)| (*key, value.to_vec()))
     .collect();
 
     icon.get(name).cloned().unwrap_or_else(|| vec![])
