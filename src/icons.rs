@@ -140,5 +140,5 @@ pub fn get_icon(name: &str) -> Vec<&'static str> {
     .map(|(key, value)| (*key, value.to_vec()))
     .collect();
 
-    icon.get(name).cloned().unwrap_or_else(|| vec![])
+    return icon.get(name).cloned().unwrap_or_else(|| vec![]);
 }

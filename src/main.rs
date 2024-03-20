@@ -8,7 +8,7 @@ fn main() {
     //     eprintln!("Error: {}", err);
     // }
 
-    let icon_unknown = get_icon("iconUnknown");
+    let icon_unknown = get_icon("iconSunny");
     for line in &icon_unknown {
         println!("{}", line);
     }
